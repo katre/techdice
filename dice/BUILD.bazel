@@ -26,6 +26,7 @@ go_library(
     srcs = ["parser.go"],
     importpath = "github.com/katre/techdice/parser",
     deps = [
+        "@aoc//util:lexer",
         ":dice",
     ],
 )

@@ -66,3 +66,10 @@ go_repository(
     sum = "h1:clyUAQHOM3G0M3f5vQj7LuJrETvjVot3Z5el9nffUtU=",
     version = "v2.3.0",
 )
+
+go_repository(
+    name = "aoc",
+    importpath = "github.com/katre/advent_of_code",
+    sum = "h1:SO4n7ng3x05R14b/H0S57cbfavn1a8QaT4t533+oklg=",
+    version = "v0.0.0-20200107154730-a463264398b4",
+)
