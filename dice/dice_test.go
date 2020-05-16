@@ -4,10 +4,12 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRollOnce(t *testing.T) {
 	roller := New(1)
+	require.NotNil(t, roller)
 	for i := 0; i < 100; i++ {
 		value := roller.rollOne()
 		assert.Greater(t, value, 0)

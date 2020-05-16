@@ -20,3 +20,22 @@ go_test(
         "@testify//require:go_default_library",
     ],
 )
+
+go_library(
+    name = "parser",
+    srcs = ["parser.go"],
+    importpath = "github.com/katre/techdice/parser",
+    deps = [
+        ":dice",
+    ],
+)
+
+go_test(
+    name = "parser_test",
+    srcs = ["parser_test.go"],
+    embed = [":parser"],
+    deps = [
+        "@testify//assert:go_default_library",
+        "@testify//require:go_default_library",
+    ],
+)
