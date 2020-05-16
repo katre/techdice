@@ -6,6 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDice(t *testing.T) {
-	assert.Equal(t, 1, 1)
+func TestRollOnce(t *testing.T) {
+	for i := 0; i < 100; i++ {
+		value := rollOne()
+		assert.Greater(t, value, 0)
+		assert.Less(t, value, 7)
+	}
 }
