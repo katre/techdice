@@ -28,10 +28,20 @@ http_archive(
     ],
 )
 
-load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 
 gazelle_dependencies()
 
-# Dependencies.
-load("@bazel_gazelle//:deps.bzl", "go_repository")
+go_repository(
+    name = "discordgo",
+    importpath = "github.com/bwmarrin/discordgo",
+    sum = "h1:EVujVeX9y7hGISnw3SrhOTNiPtrAfihWdJetkumLZng=",
+    version = "v0.20.0",
+)
 
+go_repository(
+    name = "dgrouter",
+    importpath = "github.com/Necroforger/dgrouter",
+    sum = "h1:xuNW6yNogKnVFtgYWZIBNxlcnMMlIhegVxwNRDp8HhM=",
+    version = "v0.0.0-20190528143456-040421b5a83e",
+)
