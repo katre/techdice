@@ -1,0 +1,22 @@
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+
+go_library(
+    name = "dice",
+    srcs = ["dice.go"],
+    importpath = "github.com/katre/techdice/dice",
+    deps = [],
+)
+
+go_test(
+    name = "dice_test",
+    srcs = ["dice_test.go"],
+    embed = [":dice"],
+    deps = [
+        "@testify//assert:go_default_library",
+        "@testify//require:go_default_library",
+    ],
+)

@@ -45,3 +45,24 @@ go_repository(
     sum = "h1:xuNW6yNogKnVFtgYWZIBNxlcnMMlIhegVxwNRDp8HhM=",
     version = "v0.0.0-20190528143456-040421b5a83e",
 )
+
+go_repository(
+    name = "testify",
+    importpath = "github.com/stretchr/testify",
+    sum = "h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=",
+    version = "v1.5.1",
+)
+
+go_repository(
+    name = "com_github_davecgh_go_spew",
+    importpath = "github.com/davecgh/go-spew",
+    sum = "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
+    version = "v1.1.1",
+)
+
+go_repository(
+    name = "in_gopkg_yaml_v2",
+    importpath = "gopkg.in/yaml.v2",
+    sum = "h1:clyUAQHOM3G0M3f5vQj7LuJrETvjVot3Z5el9nffUtU=",
+    version = "v2.3.0",
+)
