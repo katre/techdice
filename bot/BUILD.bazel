@@ -1,0 +1,23 @@
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test", "go_binary")
+
+go_library(
+    name = "bot",
+    srcs = ["bot.go"],
+    importpath = "github.com/katre/techdice/bot",
+    deps = [
+        "//dice",
+        "//dice:parser",
+    ],
+)
+
+go_binary(
+    name = "techdice",
+    srcs = ["main.go"],
+    deps = [
+        ":bot",
+    ],
+)
