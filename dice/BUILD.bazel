@@ -2,7 +2,7 @@ package(
     default_visibility = ["//visibility:public"],
 )
 
-load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test")
+load("@io_bazel_rules_go//go:def.bzl", "go_library", "go_test", "go_binary")
 
 go_library(
     name = "dice",
@@ -38,5 +38,14 @@ go_test(
     deps = [
         "@testify//assert:go_default_library",
         "@testify//require:go_default_library",
+    ],
+)
+
+go_binary(
+    name = "roll",
+    srcs = ["main.go"],
+    deps = [
+        ":dice",
+        ":parser",
     ],
 )
