@@ -1,6 +1,8 @@
 package dice
 
 import (
+	"bytes"
+	"fmt"
 	"math/rand"
 )
 
@@ -13,33 +15,48 @@ type Result struct {
 }
 
 func NewResult(verbDice, pushDice, hurtDice []int) Result {
-	// Find the highest result.
-	/*
-		highest := 0
-		count := 0
-		for _, result := range dice {
-			if result > highest {
-				highest = result
-				count = 1
-			} else if result == highest {
-				count++
-			}
-		}
+	// Calculate the remaining live dice.
+	invalid := make(map[int]bool)
+	for _, val := range hurtDice {
+		invalid[val] = true
+	}
 
-		var score string
-		if count > 1 {
-			score = fmt.Sprintf("%d.1", highest)
-		} else {
-			score = fmt.Sprintf("%d", highest)
+	remaining := make([]int, 0, len(verbDice)+len(pushDice))
+	for _, val := range verbDice {
+		if !invalid[val] {
+			remaining = append(remaining, val)
 		}
-	*/
-	score := "0"
+	}
+	for _, val := range pushDice {
+		if !invalid[val] {
+			remaining = append(remaining, val)
+		}
+	}
+
+	// Find the highest result.
+	highest := 0
+	count := 0
+	for _, result := range remaining {
+		if result > highest {
+			highest = result
+			count = 1
+		} else if result == highest {
+			count++
+		}
+	}
+
+	var score string
+	if count > 1 {
+		score = fmt.Sprintf("%d.1", highest)
+	} else {
+		score = fmt.Sprintf("%d", highest)
+	}
 
 	return Result{
 		VerbDice:      verbDice,
 		PushDice:      pushDice,
 		HurtDice:      hurtDice,
-		RemainingDice: []int{},
+		RemainingDice: remaining,
 		Score:         score,
 	}
 }
@@ -49,7 +66,15 @@ func (r Result) String() string {
 }
 
 func (r Result) Describe() string {
-	return ""
+	var buf bytes.Buffer
+	fmt.Fprintf(&buf, "%s %v", r.Score, r.VerbDice)
+	if len(r.PushDice) > 0 {
+		fmt.Fprintf(&buf, " push: %v", r.PushDice)
+	}
+	if len(r.HurtDice) > 0 {
+		fmt.Fprintf(&buf, " hurt: %v", r.HurtDice)
+	}
+	return buf.String()
 }
 
 // The actual roller.

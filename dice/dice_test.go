@@ -41,4 +41,7 @@ func TestDescribeResult(t *testing.T) {
 	}
 
 	check("2 [2]", []int{2}, []int{}, []int{})
+	check("3 [2] push: [3]", []int{2}, []int{3}, []int{})
+	check("3.1 [2 3] push: [3]", []int{2, 3}, []int{3}, []int{})
+	check("2 [2 3] hurt: [3]", []int{2, 3}, []int{}, []int{3})
 }
