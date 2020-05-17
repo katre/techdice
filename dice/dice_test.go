@@ -23,7 +23,7 @@ func TestRoll(t *testing.T) {
 		// Sequence: 2 3 3 5 2
 		roller := New(1)
 		result := roller.Roll(verb, push, hurt)
-		assert.Equal(t, expectedDice, result.Dice)
+		assert.Equal(t, expectedDice, result.RemainingDice)
 		assert.Equal(t, expectedScore, result.Score)
 	}
 
@@ -32,4 +32,13 @@ func TestRoll(t *testing.T) {
 	check([]int{2, 3, 3}, "3.1", 3, 0, 0)
 	check([]int{2, 3, 3, 5, 2}, "5", 3, 2, 0)
 	check([]int{2}, "2", 2, 0, 1)
+}
+
+func TestDescribeResult(t *testing.T) {
+	check := func(expected string, verb, push, hurt []int) {
+		r := NewResult(verb, push, hurt)
+		assert.Equal(t, expected, r.Describe())
+	}
+
+	check("2 [2]", []int{2}, []int{}, []int{})
 }

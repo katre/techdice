@@ -16,7 +16,7 @@ func TestParser(t *testing.T) {
 		require.NotNil(t, parser)
 		result, err := parser.Roll(input)
 		if assert.Nil(t, err) {
-			assert.Equal(t, expectedDice, result.Dice)
+			assert.Equal(t, expectedDice, result.RemainingDice)
 			assert.Equal(t, expectedScore, result.Score)
 		}
 	}

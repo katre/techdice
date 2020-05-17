@@ -1,14 +1,58 @@
 package dice
 
 import (
-	"fmt"
 	"math/rand"
 )
 
 type Result struct {
-	Dice  []int
-	Score string
+	VerbDice      []int
+	PushDice      []int
+	HurtDice      []int
+	RemainingDice []int
+	Score         string
 }
+
+func NewResult(verbDice, pushDice, hurtDice []int) Result {
+	// Find the highest result.
+	/*
+		highest := 0
+		count := 0
+		for _, result := range dice {
+			if result > highest {
+				highest = result
+				count = 1
+			} else if result == highest {
+				count++
+			}
+		}
+
+		var score string
+		if count > 1 {
+			score = fmt.Sprintf("%d.1", highest)
+		} else {
+			score = fmt.Sprintf("%d", highest)
+		}
+	*/
+	score := "0"
+
+	return Result{
+		VerbDice:      verbDice,
+		PushDice:      pushDice,
+		HurtDice:      hurtDice,
+		RemainingDice: []int{},
+		Score:         score,
+	}
+}
+
+func (r Result) String() string {
+	return r.Score
+}
+
+func (r Result) Describe() string {
+	return ""
+}
+
+// The actual roller.
 
 type Roller struct {
 	rand *rand.Rand
@@ -25,58 +69,19 @@ func (r *Roller) rollOne() int {
 	return r.rand.Intn(5) + 1
 }
 
-func (r *Roller) Roll(verb int, push int, hurt int) Result {
-	dice := verb + push
-	// Roll the positive dice.
-	results := make([]int, 0, dice)
-	for i := 0; i < dice; i++ {
+func (r *Roller) rollSeveral(n int) []int {
+	results := make([]int, 0, n)
+	for i := 0; i < n; i++ {
 		result := r.rollOne()
 		results = append(results, result)
 	}
-
-	// Roll the hurt dice and remove any matches.
-	for i := 0; i < hurt; i++ {
-		remove := r.rollOne()
-		for i, result := range results {
-			if result == remove {
-				results[i] = 0
-			}
-		}
-	}
-
-	// Find the highest result.
-	highest := 0
-	count := 0
-	for _, result := range results {
-		if result > highest {
-			highest = result
-			count = 1
-		} else if result == highest {
-			count++
-		}
-	}
-
-	var score string
-	if count > 1 {
-		score = fmt.Sprintf("%d.1", highest)
-	} else {
-		score = fmt.Sprintf("%d", highest)
-	}
-
-	return Result{
-		Dice:  filterZeros(results),
-		Score: score,
-	}
+	return results
 }
 
-func filterZeros(in []int) []int {
-	results := make([]int, 0, len(in))
+func (r *Roller) Roll(verb, push, hurt int) Result {
+	verbDice := r.rollSeveral(verb)
+	pushDice := r.rollSeveral(push)
+	hurtDice := r.rollSeveral(hurt)
 
-	for _, val := range in {
-		if val != 0 {
-			results = append(results, val)
-		}
-	}
-
-	return results
+	return NewResult(verbDice, pushDice, hurtDice)
 }
