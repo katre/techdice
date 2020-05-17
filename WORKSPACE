@@ -73,3 +73,17 @@ go_repository(
     sum = "h1:SO4n7ng3x05R14b/H0S57cbfavn1a8QaT4t533+oklg=",
     version = "v0.0.0-20200107154730-a463264398b4",
 )
+
+go_repository(
+    name = "com_github_gorilla_websocket",
+    importpath = "github.com/gorilla/websocket",
+    sum = "h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=",
+    version = "v1.4.2",
+)
+
+go_repository(
+    name = "org_golang_x_crypto",
+    importpath = "golang.org/x/crypto",
+    sum = "h1:cg5LA/zNPRzIXIWSCxQW10Rvpy94aQh3LT/ShoCpkHw=",
+    version = "v0.0.0-20200510223506-06a226fb4e37",
+)

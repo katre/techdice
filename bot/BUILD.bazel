@@ -11,6 +11,8 @@ go_library(
     deps = [
         "//dice",
         "//dice:parser",
+        "@discordgo//:go_default_library",
+        "@dgrouter//exrouter:go_default_library",
     ],
 )
 
