@@ -18,20 +18,18 @@ func TestRollOnce(t *testing.T) {
 }
 
 func TestRoll(t *testing.T) {
-	// A static seed makes the rolls deterministic.
-	// Sequence: 2 3 3 5 2
-	roller := New(1)
-	assert.Equal(t, "2", roller.Roll(1, 0, 0))
+	check := func(expectedDice []int, expectedScore string, verb, push, hurt int) {
+		// A static seed makes the rolls deterministic.
+		// Sequence: 2 3 3 5 2
+		roller := New(1)
+		result := roller.Roll(verb, push, hurt)
+		assert.Equal(t, expectedDice, result.Dice)
+		assert.Equal(t, expectedScore, result.Score)
+	}
 
-	roller = New(1)
-	assert.Equal(t, "3", roller.Roll(1, 1, 0))
-
-	roller = New(1)
-	assert.Equal(t, "3.1", roller.Roll(3, 0, 0))
-
-	roller = New(1)
-	assert.Equal(t, "5", roller.Roll(3, 2, 0))
-
-	roller = New(1)
-	assert.Equal(t, "2", roller.Roll(2, 0, 1))
+	check([]int{2}, "2", 1, 0, 0)
+	check([]int{2, 3}, "3", 1, 1, 0)
+	check([]int{2, 3, 3}, "3.1", 3, 0, 0)
+	check([]int{2, 3, 3, 5, 2}, "5", 3, 2, 0)
+	check([]int{2}, "2", 2, 0, 1)
 }

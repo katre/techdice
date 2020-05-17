@@ -5,6 +5,11 @@ import (
 	"math/rand"
 )
 
+type Result struct {
+	Dice  []int
+	Score string
+}
+
 type Roller struct {
 	rand *rand.Rand
 }
@@ -20,7 +25,7 @@ func (r *Roller) rollOne() int {
 	return r.rand.Intn(5) + 1
 }
 
-func (r *Roller) Roll(verb int, push int, hurt int) string {
+func (r *Roller) Roll(verb int, push int, hurt int) Result {
 	dice := verb + push
 	// Roll the positive dice.
 	results := make([]int, 0, dice)
@@ -51,9 +56,27 @@ func (r *Roller) Roll(verb int, push int, hurt int) string {
 		}
 	}
 
+	var score string
 	if count > 1 {
-		return fmt.Sprintf("%d.1", highest)
+		score = fmt.Sprintf("%d.1", highest)
 	} else {
-		return fmt.Sprintf("%d", highest)
+		score = fmt.Sprintf("%d", highest)
 	}
+
+	return Result{
+		Dice:  filterZeros(results),
+		Score: score,
+	}
+}
+
+func filterZeros(in []int) []int {
+	results := make([]int, 0, len(in))
+
+	for _, val := range in {
+		if val != 0 {
+			results = append(results, val)
+		}
+	}
+
+	return results
 }
