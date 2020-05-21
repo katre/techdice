@@ -11,14 +11,16 @@ import (
 )
 
 type Bot struct {
+	prefix  string
 	parser  *parser.Parser
 	botId   string
 	session *discordgo.Session
 }
 
-func New(seed int64, botId string) *Bot {
+func New(seed int64, botId string, prefix string) *Bot {
 	return &Bot{
-		parser:  parser.New(dice.New(seed)),
+		prefix:  prefix,
+		parser:  parser.New(dice.New(seed), prefix),
 		botId:   botId,
 		session: nil,
 	}
@@ -27,7 +29,7 @@ func New(seed int64, botId string) *Bot {
 func (b *Bot) createRouter() *exrouter.Route {
 	router := exrouter.New()
 
-	router.On("techdice", b.handleTechDice).Desc("roll dice for Technoir")
+	router.On(b.prefix, b.handleTechDice).Desc("roll dice for Technoir")
 
 	router.Default = router.On("help", func(ctx *exrouter.Context) {
 		var text = ""
@@ -68,5 +70,11 @@ func (b *Bot) Close() {
 
 func (b *Bot) handleTechDice(ctx *exrouter.Context) {
 	input := strings.Join(ctx.Args, " ")
-	ctx.Reply("input: " + input)
+	//ctx.Reply("input: " + input)
+	result, err := b.parser.Roll(input)
+	if err != nil {
+		ctx.Reply("You said: " + input + ", which I didn't understand: " + err.Error())
+		return
+	}
+	ctx.Reply("Result: " + result.Describe())
 }

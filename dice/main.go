@@ -16,7 +16,7 @@ var seed = flag.Int64("seed", time.Now().UnixNano(), "Seed the RNG")
 func main() {
 	// Create a new roller.
 	roller := dice.New(*seed)
-	parser := parser.New(roller)
+	parser := parser.New(roller, "roll")
 
 	// Accumulate all the args into a string.
 	input := readArgs(os.Args[1:])
