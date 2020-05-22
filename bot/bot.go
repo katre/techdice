@@ -1,6 +1,7 @@
 package bot
 
 import (
+	"log"
 	"strings"
 
 	"github.com/katre/techdice/dice"
@@ -71,10 +72,13 @@ func (b *Bot) Close() {
 func (b *Bot) handleTechDice(ctx *exrouter.Context) {
 	input := strings.Join(ctx.Args, " ")
 	//ctx.Reply("input: " + input)
+	log.Printf("Received input: %q", input)
 	result, err := b.parser.Roll(input)
 	if err != nil {
 		ctx.Reply("You said: " + input + ", which I didn't understand: " + err.Error())
+		log.Printf("Parse error: %v", err)
 		return
 	}
 	ctx.Reply("Result: " + result.Describe())
+	log.Printf("Response: %s", result.Describe())
 }
