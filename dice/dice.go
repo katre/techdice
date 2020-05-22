@@ -9,29 +9,32 @@ import (
 type Result struct {
 	VerbDice      []int
 	PushDice      []int
+	ManaDice      []int
 	HurtDice      []int
 	RemainingDice []int
 	Score         string
 }
 
-func NewResult(verbDice, pushDice, hurtDice []int) Result {
+func addDice(dice []int, invalid map[int]bool, added []int) []int {
+	for _, val := range added {
+		if !invalid[val] {
+			dice = append(dice, val)
+		}
+	}
+	return dice
+}
+
+func NewResult(verbDice, pushDice, manaDice, hurtDice []int) Result {
 	// Calculate the remaining live dice.
 	invalid := make(map[int]bool)
 	for _, val := range hurtDice {
 		invalid[val] = true
 	}
 
-	remaining := make([]int, 0, len(verbDice)+len(pushDice))
-	for _, val := range verbDice {
-		if !invalid[val] {
-			remaining = append(remaining, val)
-		}
-	}
-	for _, val := range pushDice {
-		if !invalid[val] {
-			remaining = append(remaining, val)
-		}
-	}
+	remaining := make([]int, 0, len(verbDice)+len(pushDice)+len(manaDice))
+	remaining = addDice(remaining, invalid, verbDice)
+	remaining = addDice(remaining, invalid, pushDice)
+	remaining = addDice(remaining, invalid, manaDice)
 
 	// Find the highest result.
 	highest := 0
@@ -55,6 +58,7 @@ func NewResult(verbDice, pushDice, hurtDice []int) Result {
 	return Result{
 		VerbDice:      verbDice,
 		PushDice:      pushDice,
+		ManaDice:      manaDice,
 		HurtDice:      hurtDice,
 		RemainingDice: remaining,
 		Score:         score,
@@ -70,6 +74,9 @@ func (r Result) Describe() string {
 	fmt.Fprintf(&buf, "%s %v", r.Score, r.VerbDice)
 	if len(r.PushDice) > 0 {
 		fmt.Fprintf(&buf, " push: %v", r.PushDice)
+	}
+	if len(r.ManaDice) > 0 {
+		fmt.Fprintf(&buf, " mana: %v", r.ManaDice)
 	}
 	if len(r.HurtDice) > 0 {
 		fmt.Fprintf(&buf, " hurt: %v", r.HurtDice)
@@ -103,10 +110,11 @@ func (r *Roller) rollSeveral(n int) []int {
 	return results
 }
 
-func (r *Roller) Roll(verb, push, hurt int) Result {
+func (r *Roller) Roll(verb, push, mana, hurt int) Result {
 	verbDice := r.rollSeveral(verb)
 	pushDice := r.rollSeveral(push)
+	manaDice := r.rollSeveral(mana)
 	hurtDice := r.rollSeveral(hurt)
 
-	return NewResult(verbDice, pushDice, hurtDice)
+	return NewResult(verbDice, pushDice, manaDice, hurtDice)
 }
