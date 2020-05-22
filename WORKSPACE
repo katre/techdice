@@ -33,21 +33,21 @@ load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies", "go_repository")
 gazelle_dependencies()
 
 go_repository(
-    name = "discordgo",
+    name = "com_github_bwmarrin_discordgo",
     importpath = "github.com/bwmarrin/discordgo",
     sum = "h1:EVujVeX9y7hGISnw3SrhOTNiPtrAfihWdJetkumLZng=",
     version = "v0.20.0",
 )
 
 go_repository(
-    name = "dgrouter",
+    name = "com_github_necroforger_dgrouter",
     importpath = "github.com/Necroforger/dgrouter",
     sum = "h1:xuNW6yNogKnVFtgYWZIBNxlcnMMlIhegVxwNRDp8HhM=",
     version = "v0.0.0-20190528143456-040421b5a83e",
 )
 
 go_repository(
-    name = "testify",
+    name = "com_github_stretchr_testify",
     importpath = "github.com/stretchr/testify",
     sum = "h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=",
     version = "v1.5.1",
