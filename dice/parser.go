@@ -37,7 +37,7 @@ func (p *Parser) Roll(input string) (dice.Result, error) {
 	}
 
 	// scan until end of input
-	var push, hurt int
+	var push, mana, hurt int
 	for {
 		token := s.Scan()
 		if token.TokenType == lexer.EOF {
@@ -48,6 +48,12 @@ func (p *Parser) Roll(input string) (dice.Result, error) {
 				return dice.Result{}, err
 			}
 			push += value
+		} else if token.TokenType == lexer.IDENT && token.Literal == "mana" {
+			value, err := s.ScanNumber("mana")
+			if err != nil {
+				return dice.Result{}, err
+			}
+			mana += value
 		} else if token.TokenType == lexer.IDENT && token.Literal == "hurt" {
 			value, err := s.ScanNumber("hurt")
 			if err != nil {
@@ -60,5 +66,5 @@ func (p *Parser) Roll(input string) (dice.Result, error) {
 		}
 	}
 
-	return p.roller.Roll(verb, push, hurt), nil
+	return p.roller.Roll(verb, push, mana, hurt), nil
 }

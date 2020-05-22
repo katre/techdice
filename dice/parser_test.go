@@ -23,8 +23,12 @@ func TestParser(t *testing.T) {
 
 	check([]int{2}, "2", "roll 1")
 	check([]int{2, 3}, "3", "roll 1 push 1")
+	check([]int{2, 3}, "3", "roll 1 mana 1")
 	check([]int{2, 3, 3}, "3.1", "roll 2 push 1")
+	check([]int{2, 3, 3, 5}, "5", "roll 2 push 1 mana 1")
 	check([]int{2, 3, 3, 5, 2}, "5", "roll 3 push 2")
 	check([]int{2}, "2", "roll 2 hurt 1")
+	check([]int{2, 3, 3}, "3.1", "roll 2 hurt 1 mana 1")
 	check([]int{2}, "2", "roll 1 push 1 hurt 1")
+	check([]int{2, 3, 3}, "3.1", "roll 1 mana 1 push 1 hurt 1")
 }
