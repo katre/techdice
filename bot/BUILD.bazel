@@ -16,6 +16,17 @@ go_library(
     ],
 )
 
+go_test(
+    name = "bot_test",
+    srcs = ["bot_test.go"],
+    embed = [":bot"],
+    deps = [
+        "//dice",
+        "@testify//assert:go_default_library",
+        "@testify//require:go_default_library",
+    ],
+)
+
 go_binary(
     name = "techdice",
     srcs = ["main.go"],

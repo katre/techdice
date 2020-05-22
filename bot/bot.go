@@ -1,6 +1,8 @@
 package bot
 
 import (
+	"fmt"
+	"io"
 	"log"
 	"strings"
 
@@ -79,6 +81,51 @@ func (b *Bot) handleTechDice(ctx *exrouter.Context) {
 		log.Printf("Parse error: %v", err)
 		return
 	}
-	ctx.Reply("Result: " + result.Describe())
-	log.Printf("Response: %s", result.Describe())
+	ctx.Reply("Result: " + describe(result))
+	log.Printf("Response: %s", describe(result))
+}
+
+func describe(result dice.Result) string {
+	var b strings.Builder
+
+	// Print the score.
+	fmt.Fprintf(&b, "Score: %s", result.Score)
+
+	// Print the dice.
+	fmt.Fprint(&b, " [")
+	invalid := make(map[int]bool)
+	for _, val := range result.HurtDice {
+		invalid[val] = true
+	}
+
+	describeDice(&b, result.VerbDice, invalid)
+	if len(result.PushDice) != 0 {
+		fmt.Fprint(&b, ", push: ")
+		describeDice(&b, result.PushDice, invalid)
+	}
+	if len(result.ManaDice) != 0 {
+		fmt.Fprint(&b, ", mana: ")
+		describeDice(&b, result.ManaDice, invalid)
+	}
+	// hurt
+	if len(result.HurtDice) != 0 {
+		fmt.Fprint(&b, ", hurt: ")
+		describeDice(&b, result.HurtDice, map[int]bool{})
+	}
+	fmt.Fprint(&b, "]")
+
+	return b.String()
+}
+
+func describeDice(w io.Writer, dice []int, invalid map[int]bool) {
+	for i, die := range dice {
+		if i != 0 {
+			fmt.Fprint(w, " ")
+		}
+		template := "%d"
+		if invalid[die] {
+			template = "~~%d~~"
+		}
+		fmt.Fprintf(w, template, die)
+	}
 }
