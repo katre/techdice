@@ -35,22 +35,22 @@ gazelle_dependencies()
 go_repository(
     name = "com_github_bwmarrin_discordgo",
     importpath = "github.com/bwmarrin/discordgo",
-    sum = "h1:EVujVeX9y7hGISnw3SrhOTNiPtrAfihWdJetkumLZng=",
-    version = "v0.20.0",
+    sum = "h1:UI2PWwzvn5IFuscYcDc6QB/duhs9MUIjQ4HclcIZisc=",
+    version = "v0.21.1",
 )
 
 go_repository(
     name = "com_github_necroforger_dgrouter",
     importpath = "github.com/Necroforger/dgrouter",
-    sum = "h1:xuNW6yNogKnVFtgYWZIBNxlcnMMlIhegVxwNRDp8HhM=",
-    version = "v0.0.0-20190528143456-040421b5a83e",
+    sum = "h1:3OHJOlf0r1CVSA1E3Ts4uLWsCnucYndMRjNk4rFiQdE=",
+    version = "v0.0.0-20200517224846-e66453b957c1",
 )
 
 go_repository(
     name = "com_github_stretchr_testify",
     importpath = "github.com/stretchr/testify",
-    sum = "h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=",
-    version = "v1.5.1",
+    sum = "h1:hDPOHmpOpP40lSULcqw7IrRb/u7w6RpDC9399XyoNd0=",
+    version = "v1.6.1",
 )
 
 go_repository(
@@ -58,13 +58,6 @@ go_repository(
     importpath = "github.com/davecgh/go-spew",
     sum = "h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=",
     version = "v1.1.1",
-)
-
-go_repository(
-    name = "in_gopkg_yaml_v2",
-    importpath = "gopkg.in/yaml.v2",
-    sum = "h1:clyUAQHOM3G0M3f5vQj7LuJrETvjVot3Z5el9nffUtU=",
-    version = "v2.3.0",
 )
 
 go_repository(
@@ -84,6 +77,13 @@ go_repository(
 go_repository(
     name = "org_golang_x_crypto",
     importpath = "golang.org/x/crypto",
-    sum = "h1:cg5LA/zNPRzIXIWSCxQW10Rvpy94aQh3LT/ShoCpkHw=",
-    version = "v0.0.0-20200510223506-06a226fb4e37",
+    sum = "h1:DZhuSZLsGlFL4CmhA8BcRA0mnthyA/nZ00AqCUo7vHg=",
+    version = "v0.0.0-20200709230013-948cd5f35899",
+)
+
+go_repository(
+    name = "in_gopkg_yaml_v3",
+    importpath = "gopkg.in/yaml.v3",
+    sum = "h1:tQIYjPdBoyREyB9XMu+nnTclpTYkz2zFM+lzLJFO4gQ=",
+    version = "v3.0.0-20200615113413-eeeca48fe776",
 )
