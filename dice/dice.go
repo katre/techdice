@@ -98,7 +98,7 @@ func New(seed int64) *Roller {
 }
 
 func (r *Roller) rollOne() int {
-	return r.rand.Intn(5) + 1
+	return r.rand.Intn(6) + 1
 }
 
 func (r *Roller) rollSeveral(n int) []int {

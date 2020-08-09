@@ -7,32 +7,41 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+// A static seed makes the rolls deterministic.
+// Seed: 5 (chosen to get early duplicates)
+// Sequence: 1 5 2 5 4
+
 func TestRollOnce(t *testing.T) {
-	roller := New(1)
+	roller := New(5)
 	require.NotNil(t, roller)
+	seen := make(map[int]bool)
 	for i := 0; i < 100; i++ {
 		value := roller.rollOne()
 		assert.Greater(t, value, 0)
 		assert.Less(t, value, 7)
+		seen[value] = true
 	}
+	for i := 1; i <= 6; i++ {
+		assert.True(t, seen[i])
+	}
+	assert.Equal(t, 6, len(seen))
 }
 
 func TestRoll(t *testing.T) {
 	check := func(expectedDice []int, expectedScore string, verb, push, mana, hurt int) {
-		// A static seed makes the rolls deterministic.
-		// Sequence: 2 3 3 5 2
-		roller := New(1)
+		roller := New(5)
 		result := roller.Roll(verb, push, mana, hurt)
 		assert.Equal(t, expectedDice, result.RemainingDice)
 		assert.Equal(t, expectedScore, result.Score)
 	}
 
-	check([]int{2}, "2", 1, 0, 0, 0)
-	check([]int{2, 3}, "3", 1, 1, 0, 0)
-	check([]int{2, 3}, "3", 1, 0, 1, 0)
-	check([]int{2, 3, 3}, "3.1", 3, 0, 0, 0)
-	check([]int{2, 3, 3, 5, 2}, "5", 3, 2, 0, 0)
-	check([]int{2}, "2", 2, 0, 0, 1)
+	check([]int{1}, "1", 1, 0, 0, 0)
+	check([]int{1, 5}, "5", 1, 1, 0, 0)
+	check([]int{1, 5}, "5", 1, 0, 1, 0)
+	// get a duplicate
+	check([]int{1, 5, 2, 5}, "5.1", 4, 0, 0, 0)
+	check([]int{1, 5, 2, 5, 4}, "5.1", 3, 2, 0, 0)
+	check([]int{1}, "1", 2, 0, 0, 2)
 }
 
 func TestDescribeResult(t *testing.T) {
